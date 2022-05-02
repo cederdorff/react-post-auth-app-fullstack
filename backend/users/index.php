@@ -10,12 +10,21 @@
 
     if ($request_method === 'GET' && isset($_GET['id'])) {
         $userId = $_GET['id'];
-        $sql = "SELECT * FROM users WHERE id = '$userId'";
+        $sql = "SELECT id, image, title, mail, name, phone FROM users WHERE id = '$userId'";
         echo $mySQL->Query($sql, true);
 
     } else if ($request_method === 'GET') {
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT id, image, title, mail, name, phone FROM users;";
         echo $mySQL->Query($sql, true);
         
+    } else if ($request_method === 'PUT' && isset($_GET['id'])){
+        $userId = $_GET['id'];
+        $user = json_decode(file_get_contents('php://input'));
+        $sql = "UPDATE users 
+                SET title = '$user->title', name = '$user->name', image = '$user->image', mail = '$user->mail', phone = '$user->phone'
+                WHERE id = '$userId'";
+        $mySQL->Query($sql, false);
+        $sql = "SELECT id, image, title, mail, name, phone FROM users WHERE id = '$userId'";
+        echo $mySQL->Query($sql, true);
     }
 ?>

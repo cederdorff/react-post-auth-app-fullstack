@@ -1,12 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import PostForm from "../components/PostForm";
+import { useState } from "react";
 
 export default function CreatePage() {
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("authUser")));
     const navigate = useNavigate();
 
     async function createPost(newPost) {
-        newPost.uid = "fTs84KRoYw5pRZEWCq2Z"; // default user id (RACE)
+        newPost.uid = user.id; // default user id (RACE)
 
         const url = "http://localhost:3000/backend/posts/";
         await fetch(url, {
