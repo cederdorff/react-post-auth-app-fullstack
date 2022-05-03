@@ -1,31 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import imgPlaceholder from "../assets/img/img-placeholder.jpg";
 import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage({ setAuth }) {
-    const [name, setName] = useState("");
-    const [title, setTitle] = useState("");
-    const [email, setEmail] = useState("");
-    const [image, setImage] = useState("");
-    const [phone, setPhone] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const user = JSON.parse(localStorage.getItem("authUser"));
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("authUser")));
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (user) {
-            setName(user.name);
-            setTitle(user.title);
-            setEmail(user.mail);
-            setImage(user.image);
-            setPhone(user.phone);
-        }
-    }, [user]); // dependencies: useEffect is executed when auth.currentUser changes
+    function handleChange(event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        setUser(prevUser => ({ ...prevUser, [name]: value }));
+    }
 
     async function handleSubmit(event) {
         event.preventDefault();
         const url = `http://localhost:3000/backend/users/?id=${user.id}`;
-        const userToUpdate = { id: user.id, name: name, title: title, mail: email, phone: phone, image: image };
+        const userToUpdate = { id: user.id, name: user.name, title: user.title, mail: user.mail, phone: user.phone, image: user.image };
         console.log(userToUpdate);
 
         const response = await fetch(url, {
@@ -58,7 +49,7 @@ export default function ProfilePage({ setAuth }) {
             // image file size must be below 0,5MB
             const reader = new FileReader();
             reader.onload = event => {
-                setImage(event.target.result);
+                setUser(prevUser => ({ ...prevUser, image: event.target.result }));
             };
             reader.readAsDataURL(file);
             setErrorMessage(""); // reset errorMessage state
@@ -74,24 +65,24 @@ export default function ProfilePage({ setAuth }) {
             <form onSubmit={handleSubmit}>
                 <label>
                     Name
-                    <input type="text" value={name} onChange={e => setName(e.target.value)} name="name" placeholder="Type name" />
+                    <input type="text" value={user.name} onChange={handleChange} name="name" placeholder="Type name" />
                 </label>
                 <label>
                     Email
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} name="email" placeholder="Type email" />
+                    <input type="email" value={user.mail} onChange={handleChange} name="email" placeholder="Type email" />
                 </label>
                 <label>
                     Phone
-                    <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} name="phone" placeholder="Type phone number" />
+                    <input type="tel" value={user.phone || ""} onChange={handleChange} name="phone" placeholder="Type phone number" />
                 </label>
                 <label>
                     Title
-                    <input type="text" value={title} onChange={e => setTitle(e.target.value)} name="title" placeholder="Type your title" />
+                    <input type="text" value={user.title || ""} onChange={handleChange} name="title" placeholder="Type your title" />
                 </label>
                 <label>
                     Image
                     <input type="file" className="file-input" accept="image/*" onChange={handleImageChange} />
-                    <img className="image-preview" src={image} alt="Choose" onError={event => (event.target.src = imgPlaceholder)} />
+                    <img className="image-preview" src={user.image || imgPlaceholder} alt="Choose" onError={event => (event.target.src = imgPlaceholder)} />
                 </label>
                 <p className="text-error">{errorMessage}</p>
                 <button>Save User</button>
