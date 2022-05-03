@@ -60,16 +60,16 @@ export default function PostForm({ savePost, post }) {
         <form onSubmit={handleSubmit}>
             <label>
                 Title
-                <input type="text" value={title} placeholder="Type a title" onChange={e => setTitle(e.target.value)} />
+                <input type="text" value={title || ""} placeholder="Type a title" onChange={e => setTitle(e.target.value)} />
             </label>
             <label>
                 Body
-                <input type="text" value={body} placeholder="Type a body text" onChange={e => setBody(e.target.value)} />
+                <input type="text" value={body || ""} placeholder="Type a body text" onChange={e => setBody(e.target.value)} />
             </label>
             <label>
                 Image
                 <input type="file" className="file-input" accept="image/*" onChange={handleImageChange} />
-                <img className="image-preview" src={image} alt="Choose" onError={event => (event.target.src = imgPlaceholder)} />
+                <img className="image-preview" src={image || imgPlaceholder} alt="Choose" onError={event => (event.target.src = imgPlaceholder)} />
             </label>
             <p className="text-error">{errorMessage}</p>
             <button type="submit">Save</button>
