@@ -24,7 +24,9 @@ export default function UpdatePage() {
         });
         const data = await response.json();
         console.log(data);
-        navigate("/");
+        if (data.status === "success") {
+            navigate("/");
+        }
     }
 
     async function deletePost() {
@@ -35,7 +37,9 @@ export default function UpdatePage() {
             });
             const data = await response.json();
             console.log(data);
-            navigate("/");
+            if (data.status === "success") {
+                navigate("/");
+            }
         }
     }
 

@@ -11,11 +11,15 @@ export default function CreatePage() {
         newPost.uid = user.id; // default user id (RACE)
 
         const url = "http://localhost:3000/backend/posts/";
-        await fetch(url, {
+        const response = await fetch(url, {
             method: "POST",
             body: JSON.stringify(newPost)
         });
-        navigate("/");
+        const data = await response.json();
+        console.log(data);
+        if (data.status === "success") {
+            navigate("/");
+        }
     }
 
     return (
