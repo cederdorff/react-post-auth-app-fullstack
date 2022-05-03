@@ -1,5 +1,5 @@
 # react-post-auth-app-fullstack
-Fullstack Post App with simple authentication. The backend is implemented with PHP communcating with a MySQL database. The backend serves a JSON API with posts and users. The frontend is a React Single Page App fetching JSON from the backend JSON API.  
+Fullstack Post App with simple authentication. The backend is implemented with PHP communicating with a MySQL database. The backend serves a JSON API with posts and users. The frontend is a React Single Page App fetching JSON from the backend JSON API.  
 
 ## Setup Fullstack Post App
 
@@ -12,7 +12,7 @@ Fullstack Post App with simple authentication. The backend is implemented with P
 ### Frontend
 1. cd into the frontend React project: `cd frontend/`.
 2. Run `npm i` to install dependencies.
-3. Make sure your all fetch calls are yousing the right `URL`. Check all page components in `frontend/src/pages`.
+3. Make sure all fetch calls are using the right `URL` to your backend services. Check all page components in `frontend/src/pages`. 
 4. Run `npm start` to run and test your frontend React SPA. 
 5. Sign Up or use the following test user: race@eaaa.dk / test01
 
